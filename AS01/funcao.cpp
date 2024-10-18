@@ -1,28 +1,26 @@
 #include <iostream>
 #include <cmath>
 #include <iomanip>
-
+ 
 using namespace std;
-
+ 
+double resolver(double A, double B, double C) {
+    double inicio = 0.0, fim = 1e9;
+    double precisao = 1e-9;
+    while (fim - inicio > precisao) {
+        double x = (inicio + fim) / 2.0;
+        double resultado = A * x + B * cos(x);
+        if (fabs(resultado - C) < precisao) return x;
+        if (resultado < C) inicio = x;
+        else fim = x;
+    }
+    return (inicio + fim) / 2.0;
+}
+ 
 int main() {
     double A, B, C;
     cin >> A >> B >> C;
-
-    double esquerda = 0.0, direita = 1e9, meio;
-    double EPS = 1e-9;
-
-    while (direita - esquerda > EPS) {
-        meio = (esquerda + direita) / 2.0;
-        double valor = A * meio + B * cos(meio);
-
-        if (valor < C) {
-            esquerda = meio;
-        } else {
-            direita = meio;
-        }
-    }
-
-    cout << fixed << setprecision(4) << meio << endl;
-
+    double x = resolver(A, B, C);
+    cout << fixed << setprecision(4) << x << endl;
     return 0;
 }
